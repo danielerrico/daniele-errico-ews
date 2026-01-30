@@ -1,4 +1,4 @@
-# Systemic Banking Crises Analysis (1970-2017)
+# Banking Crisis Early Warning System (1970-2017)
 
 ## Project Overview
 This project performs a quantitative analysis of global financial stability using the **Systemic Banking Crises Database** (Laeven & Valencia, IMF). The objective is to examine the frequency, fiscal costs, and output losses associated with banking crises over the last five decades, with a specific focus on the 2008 Global Financial Crisis.
