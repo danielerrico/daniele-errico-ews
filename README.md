@@ -1,80 +1,44 @@
-# 🏦 Banking Crisis Early Warning System: Target Generation Module
+# Systemic Banking Crises Analysis (1970-2017)
 
-![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
-![Pandas](https://img.shields.io/badge/Pandas-Data%20Engineering-green)
-![Stage](https://img.shields.io/badge/Stage-Target%20Definition-orange)
+## Project Overview
+This project performs a quantitative analysis of global financial stability using the **Systemic Banking Crises Database** (Laeven & Valencia, IMF). The objective is to examine the frequency, fiscal costs, and output losses associated with banking crises over the last five decades, with a specific focus on the 2008 Global Financial Crisis.
 
-## 🔭 Project Overview & Vision
-This project aims to apply **Machine Learning** to the field of Macroeconomics to build an **Early Warning System (EWS)** for systemic banking crises.
+This repository demonstrates the application of data analytics techniques to unstructured financial datasets, bridging the gap between economic theory and empirical evidence.
 
-The ultimate goal is to verify whether algorithmic models can identify the build-up of financial vulnerabilities (e.g., credit bubbles, overheating economies) **years before** a crisis actually occurs. To achieve this, the project follows a Supervised Learning approach:
+## Data Source
+The analysis utilizes the **Laeven and Valencia (2018)** dataset, which covers:
+* **Crisis Dates:** Banking, currency, and sovereign debt crises.
+* **Fiscal Costs:** Direct fiscal outlays relative to GDP.
+* **Output Losses:** Cumulative loss in output relative to trend.
+* **Policy Responses:** Liquidity support, recapitalizations, and guarantees.
 
-1.  **Define the "Ground Truth" (Target Variable $Y$):** Accurately identify when and where crises happened historically.
-2.  **Gather Economic Data (Features $X$):** Collect historical macroeconomic indicators (GDP, Inflation, Credit).
-3.  **Train Models:** Use algorithms (Random Forest, XGBoost) to predict $Y$ using $X_{t-1}$.
+**Source:** [Laeven, L., & Valencia, F. (2018). Systemic Banking Crises Database II. IMF Economic Review.](https://www.imf.org/en/Publications/WP/Issues/2018/09/14/Systemic-Banking-Crises-Revisited-46232)
 
-**⚠️ Current Status:** This repository currently focuses on **Step 1: The Automated Generation of the Target Variable.**
+## Methodology
+The analysis was conducted using **Python** in a Jupyter Notebook environment. Key steps included:
 
----
+1.  **Data Cleaning & Preprocessing:**
+    * Handling missing values and inconsistencies in the raw dataset.
+    * Structuring the data to isolate relevant economic indicators (Fiscal Costs, Output Loss).
+2.  **Exploratory Data Analysis (EDA):**
+    * Analyzing the distribution of crises across different income groups and regions.
+    * Calculating descriptive statistics for fiscal interventions.
+3.  **Visualization:**
+    * Generating time-series plots to visualize crisis frequency peaks (e.g., 2008).
+    * Creating comparative charts to analyze the severity of the 2008 crisis versus historical averages.
 
-## 🏛️ The Data Source: Laeven & Valencia
+## Technologies Used
+* **Python 3**
+* **Pandas:** For data manipulation and aggregation.
+* **Matplotlib / Seaborn:** For data visualization.
+* **NumPy:** For numerical operations.
 
-To train an AI, we first need a reliable label of "Crisis" vs "Non-Crisis."
-We utilize the **Systemic Banking Crises Database**, created by Luc Laeven and Fabian Valencia (International Monetary Fund).
+## Key Findings
+* The analysis highlights the cyclical nature of banking crises, with significant peaks corresponding to major global economic downturns.
+* Fiscal costs associated with the 2008 crisis were significantly higher in advanced economies compared to emerging markets, despite similar output losses.
 
-* **Why this dataset?** It is considered the academic "Gold Standard" for dating financial crises.
-* **Coverage:** It tracks banking, currency, and sovereign debt crises globally from 1970 to 2017.
-* **Format:** The raw data is hosted on the IMF website as an Excel file nested within a ZIP archive.
-
----
-
-## ⚙️ Implemented Pipeline (ETL)
-
-We have built a fully automated Python pipeline to handle the **Data Ingestion** and **Cleaning** of this target dataset. The script performs the following operations without manual intervention:
-
-### 1. Automated Ingestion (Extract)
-Instead of relying on local files, the script connects directly to the IMF servers.
-* **Dynamic Fetching:** Uses `requests` to download the latest available `.zip` archive.
-* **In-Memory Extraction:** Utilizes `zipfile` and `io` to locate and extract the specific Excel workbook (`.xlsx`) containing the crisis dates, bypassing the need to save temporary files to disk.
-
-### 2. Data Cleaning & Parsing (Transform)
-The raw IMF data is designed for human reading (containing footnotes, annotations, and mixed formats). The pipeline transforms this into machine-readable data:
-* **Noise Reduction:** Removes metadata, empty rows, and footnotes (filtering out rows where country names are actually descriptive text).
-* **Regex Date Parsing:** Implements Regular Expressions to handle complex date formats (e.g., converting *"2007 (ongoing)"* or *"Sept 2008"* into clean integers like `2007` and `2008`).
-
-### 3. Geographical Standardization
-To ensure this data can later be merged with World Bank economic indicators, precise geographical matching is required:
-* **ISO3 Conversion:** The pipeline uses the `country_converter` library to translate raw country names (e.g., *"Korea, Rep."*, *"United States"*) into standard **ISO3 codes** (`KOR`, `USA`).
-* **Entity Validation:** Filters out regional aggregates or unrecognized entities, ensuring only valid sovereign states remain.
-
----
-
-## 📂 Current Output
-
-The pipeline outputs a clean, standardized DataFrame representing the **Target Variable**, ready for future merging:
-
-| iso3 | start_year | end_year |
-|------|------------|----------|
-| USA  | 2007       | 2011     |
-| GBR  | 2007       | 2010     |
-| ESP  | 2008       | 2012     |
-
----
-
-## 🛣️ Roadmap & Next Steps
-
-We have successfully defined the **Target ($Y$)**. The next development phases involve:
-
-- [x] **Target Definition:** Auto-download and clean Laeven-Valencia data.
-- [ ] **Feature Engineering:** Download Macroeconomic indicators (GDP, Credit, Rates) from the World Bank.
-- [ ] **Data Merging:** Align Crisis dates with Economic data.
-- [ ] **Modeling:** Train Machine Learning models to predict the onset of these crises.
-
----
-
-## 💻 Requirements
-
-To run the ingestion script:
-
-```bash
-pip install pandas country_converter requests openpyxl
+## Usage
+To reproduce the analysis:
+1.  Clone the repository.
+2.  Ensure `laeven-valencia.xlsx` is in the root directory.
+3.  Run the `final.ipynb` Jupyter Notebook.
