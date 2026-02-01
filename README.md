@@ -4,19 +4,19 @@
 ![Status](https://img.shields.io/badge/Status-Academic%20Research-orange)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
-## 📉 Project Abstract
+##  Project Abstract
 This research project implements a quantitative **Early Warning System (EWS)** designed to predict systemic banking crises 12 months in advance. By analyzing over 40 years of macroeconomic data across **37 OECD nations and China**, the model identifies the buildup of financial vulnerabilities (such as overheating credit markets) before they materialize into full-blown crises.
 
 The framework bridges **economic theory** with **machine learning**, utilizing a strictly historical simulation (Walk-Forward Validation) to prevent look-ahead bias.
 
-## 🏛️ Data Sources
+##  Data Sources
 The dataset is constructed by merging two primary sources via an automated ETL pipeline:
 1.  **Target Variable ($Y$):** Systemic Banking Crises Database (Laeven & Valencia, IMF).
     * *Covers:* Banking crises, currency crises, and sovereign debt defaults (1970–2017).
 2.  **Features ($X$):** World Development Indicators (World Bank).
     * *Indicators:* Credit-to-GDP gaps, Inflation, Real Interest Rates, M2 Money Supply, and Terms of Trade.
 
-## ⚙️ Methodology & Rigor
+##  Methodology & Rigor
 Unlike standard predictive models, this project addresses the specific challenges of financial time-series analysis:
 
 ### 1. Walk-Forward Validation (Rolling Origin)
@@ -33,17 +33,17 @@ Raw macroeconomic data is non-stationary. The pipeline transforms features using
 ### 3. Optimization for "Recall"
 In financial stability, a False Negative (missing a crisis) is significantly more costly than a False Positive (a false alarm). The model threshold is optimized to maximize **Recall**, ensuring policymakers are alerted to potential risks even at the cost of higher sensitivity.
 
-## 📊 Key Findings & Interpretation
+##  Key Findings & Interpretation
 * **The 2008 Asymmetry:** The analysis reveals that while Advanced Economies faced higher **Fiscal Costs** (bailouts/recapitalizations) during 2008, Emerging Markets suffered proportionally higher **Output Losses** relative to their trend.
 * **Leading Indicators:** The Feature Importance analysis confirms that deviations in the **Credit-to-GDP gap** and rapid spikes in **Real Interest Rates** are the strongest predictors of impending banking distress.
 
-## 💻 Technologies
+##  Technologies
 * **Core:** Python 3, NumPy.
 * **Data Engineering:** Pandas, Wbdata (World Bank API), Country_converter.
 * **Analysis:** Scikit-Learn (Logistic Regression/Random Forest), Statsmodels.
 * **Visualization:** Matplotlib, Seaborn.
 
-## 🚀 Usage
+##  Usage
 To replicate the analysis:
 
 1.  Clone the repository:
