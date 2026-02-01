@@ -48,7 +48,7 @@ To replicate the analysis:
 
 1.  Clone the repository:
     ```bash
-    git clone [https://github.com/YOUR_USERNAME/banking-crisis-ews.git](https://github.com/YOUR_USERNAME/banking-crisis-ews.git)
+    git clone [https://github.com/danielerrico/Daniele-Errico-Indipendent.git](github.com/danielerrico/Daniele-Errico-Indipendent.git)
     ```
 2.  Install dependencies:
     ```bash
