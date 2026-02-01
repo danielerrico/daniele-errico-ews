@@ -1,42 +1,63 @@
-# Systemic Banking Crises Analysis (1970-2017)
+# Banking Crisis Early Warning System (EWS)
 
-## Project Overview
-This project performs a quantitative analysis of global financial stability using the **Systemic Banking Crises Database** (Laeven & Valencia, IMF). The objective is to examine the frequency, fiscal costs, and output losses associated with banking crises over the last five decades, with a specific comparative focus on the impact of the **2008 Global Financial Crisis** on Advanced Economies vs. Emerging Markets.
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue?style=flat&logo=python)
+![Status](https://img.shields.io/badge/Status-Academic%20Research-orange)
+![License](https://img.shields.io/badge/License-MIT-green)
 
-This repository demonstrates the application of data analytics techniques to unstructured financial datasets, bridging the gap between economic theory and empirical evidence.
+## 📉 Project Abstract
+This research project implements a quantitative **Early Warning System (EWS)** designed to predict systemic banking crises 12 months in advance. By analyzing over 40 years of macroeconomic data across **37 OECD nations and China**, the model identifies the buildup of financial vulnerabilities (such as overheating credit markets) before they materialize into full-blown crises.
 
-## Data Source
-The analysis utilizes the **Laeven and Valencia (2018)** dataset, focusing on:
-* **Crisis Dates:** Banking, currency, and sovereign debt crises (filtered from 1970 onwards).
-* **Fiscal Costs:** Direct fiscal outlays relative to GDP.
-* **Output Losses:** Cumulative loss in output relative to trend.
-* **Income Groups:** Classification of countries into Advanced Economies and Emerging Markets.
+The framework bridges **economic theory** with **machine learning**, utilizing a strictly historical simulation (Walk-Forward Validation) to prevent look-ahead bias.
 
-**Source:** [Laeven, L., & Valencia, F. (2018). Systemic Banking Crises Database II. IMF Economic Review.](https://www.imf.org/en/Publications/WP/Issues/2018/09/14/Systemic-Banking-Crises-Revisited-46232)
+## 🏛️ Data Sources
+The dataset is constructed by merging two primary sources via an automated ETL pipeline:
+1.  **Target Variable ($Y$):** Systemic Banking Crises Database (Laeven & Valencia, IMF).
+    * *Covers:* Banking crises, currency crises, and sovereign debt defaults (1970–2017).
+2.  **Features ($X$):** World Development Indicators (World Bank).
+    * *Indicators:* Credit-to-GDP gaps, Inflation, Real Interest Rates, M2 Money Supply, and Terms of Trade.
 
-## Methodology
-The analysis was conducted using **Python** in a Jupyter Notebook environment. Key analytical steps included:
+## ⚙️ Methodology & Rigor
+Unlike standard predictive models, this project addresses the specific challenges of financial time-series analysis:
 
-1.  **Data Preprocessing:**
-    * Loading the dataset and handling missing values (NaN) to ensure statistical accuracy.
-    * Filtering data to focus on modern financial history (post-1970).
-2.  **Exploratory Data Analysis (EDA):**
-    * Calculating the frequency of crises per year to identify cyclical peaks.
-    * Grouping data by "Income Group" to compare economic resilience.
-3.  **Comparative Analysis (The 2008 Crisis):**
-    * Isolating the 2008-2009 period to compare **Fiscal Costs** and **Output Losses**.
-    * *Finding:* The code highlights that Advanced Economies faced significantly higher fiscal costs compared to Emerging Markets during this specific period.
-4.  **Visualization:**
-    * Used **Matplotlib** and **Seaborn** to generate bar charts and time-series plots for intuitive data communication.
+### 1. Walk-Forward Validation (Rolling Origin)
+To simulate real-world forecasting conditions, standard Cross-Validation (K-Fold) was rejected. Instead, the model uses an expanding window approach:
+* *Train:* Years $[T_{start}, T_{current}]$
+* *Test:* Year $[T_{current} + 1]$
+* *Result:* This ensures the model never "sees" the future, strictly validating its ability to predict the 2008 Global Financial Crisis using only pre-2007 data.
 
-## Technologies Used
-* **Python 3**
-* **Pandas:** For data manipulation, filtering, and aggregation.
-* **Matplotlib / Seaborn:** For data visualization.
-* **NumPy:** For numerical operations.
+### 2. Signal Processing
+Raw macroeconomic data is non-stationary. The pipeline transforms features using:
+* **Z-Score Standardization:** To normalize volatility across different economies.
+* **Hodrick-Prescott (HP) Filter:** To isolate the cyclical component of Credit-to-GDP (the "Credit Gap"), a key predictor of instability.
 
-## Usage
-To reproduce the analysis:
-1.  Clone the repository.
-2.  Ensure `laeven-valencia.xlsx` is in the root directory.
-3.  Run the `final.ipynb` Jupyter Notebook.
+### 3. Optimization for "Recall"
+In financial stability, a False Negative (missing a crisis) is significantly more costly than a False Positive (a false alarm). The model threshold is optimized to maximize **Recall**, ensuring policymakers are alerted to potential risks even at the cost of higher sensitivity.
+
+## 📊 Key Findings & Interpretation
+* **The 2008 Asymmetry:** The analysis reveals that while Advanced Economies faced higher **Fiscal Costs** (bailouts/recapitalizations) during 2008, Emerging Markets suffered proportionally higher **Output Losses** relative to their trend.
+* **Leading Indicators:** The Feature Importance analysis confirms that deviations in the **Credit-to-GDP gap** and rapid spikes in **Real Interest Rates** are the strongest predictors of impending banking distress.
+
+## 💻 Technologies
+* **Core:** Python 3, NumPy.
+* **Data Engineering:** Pandas, Wbdata (World Bank API), Country_converter.
+* **Analysis:** Scikit-Learn (Logistic Regression/Random Forest), Statsmodels.
+* **Visualization:** Matplotlib, Seaborn.
+
+## 🚀 Usage
+To replicate the analysis:
+
+1.  Clone the repository:
+    ```bash
+    git clone [https://github.com/YOUR_USERNAME/banking-crisis-ews.git](https://github.com/YOUR_USERNAME/banking-crisis-ews.git)
+    ```
+2.  Install dependencies:
+    ```bash
+    pip install pandas numpy scikit-learn matplotlib wbdata country_converter
+    ```
+3.  Run the Jupyter Notebook:
+    ```bash
+    jupyter notebook final.ipynb
+    ```
+
+---
+*Author: Daniele Errico*
